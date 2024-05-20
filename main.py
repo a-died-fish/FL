@@ -4,7 +4,6 @@ import random
 
 from config import get_args
 from utils import *
-from utils.attack.mi_attack import mia_attack
 args = get_args()
 set_seed(args.seed)
 if args.dataset == 'sent140':
