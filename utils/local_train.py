@@ -17,7 +17,13 @@ def local_train_base(args, train_dls, local_model_list, global_model, available_
         model.train()
 
         iterator = iter(train_loader)
-        for iteration in range(args.n_iteration):
+
+        # ## for testing cifar100 setting
+        # num_batches = len(train_loader)
+        # total_iterations = num_batches * 3  # 3 local epochs
+
+        for iteration in range(args.n_iteration): 
+        # for iteration in range(total_iterations):
             try:
                 x, target = next(iterator)
             except StopIteration:

@@ -1,7 +1,7 @@
 """Utils for language models."""
 
 import re
-import spacy
+# import spacy
 import re
 import numpy as np
 from pathlib import Path
