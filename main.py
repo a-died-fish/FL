@@ -23,9 +23,9 @@ global_model_dir = '/GPFS/data/xinyuzhu-1/FL/models/global_models'
 local_model_dir = '/GPFS/data/xinyuzhu-1/FL/models/local_models'
 global_model = get_model(args, sent140_info)
 model_state = global_model.state_dict()
-torch.save(model_state, os.path.join(init_model_dir,'init_model.pth'))
-exit()
-global_model.load_state_dict(torch.load(args.load_path)) if args.load_path is not None else None    # Load saved model if exists
+# torch.save(model_state, os.path.join(init_model_dir,'init_model.pth'))
+# global_model.load_state_dict(torch.load(args.load_path)) if args.load_path is not None else None    # Load saved model if exists
+global_model.load_state_dict(torch.load(os.path.join(init_model_dir,'init_model')))
 local_model_list = [copy.deepcopy(global_model) for _ in range(args.n_client)]
 local_extra_list = [set_model_zero(copy.deepcopy(global_model)) for _ in range(args.n_client)] if args.alg in ('scaffold') else []
 global_extra = set_model_zero(copy.deepcopy(global_model)) if args.alg in ('scaffold') else []
@@ -65,7 +65,7 @@ for round in range(args.n_round):
         check_file_exists(global_model_dir,'round_'+str(round)+'.pth')
 
         # load the global model send by server
-        global_model.load_state_dict(os.path.join(global_model_dir,'round_'+str(round)+'.pth'))
+        global_model.load_state_dict(torch.load(os.path.join(global_model_dir,'round_'+str(round)+'.pth')))
 
         # no need to aggregate again
         # aggregate_model(global_model, local_model_list, client_num_samples, available_clients)
