@@ -34,10 +34,10 @@ best_acc = 0.0
 
 
 server = "60.204.226.214"
-port = 22  # 一般SSH使用22端口
+port = 22  
 user = "root"
 password = "Zhuxinyu13579"
-remote_path = "/data/test/"  # 例如 "/path/to/remote/destination/"
+remote_path = "/data/FL/local_models/"  
 
 # ========== Federated Learning ==========
 print(f"{'='*20} Start Federated Learning {'='*20}")  
