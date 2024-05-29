@@ -1,5 +1,7 @@
 import paramiko
 from scp import SCPClient
+import os
+import time
 
 def create_ssh_client(server, port, user, password):
     """创建SSH客户端并连接到服务器."""
@@ -30,12 +32,20 @@ def transfer_file(local_file, remote_path, server, port, user, password):
     finally:
         ssh_client.close()
 
-# 使用示例
-server = "60.204.226.214"
-port = 22  # 一般SSH使用22端口
-user = "root"
-password = "Zhuxinyu13579"
-local_file = "/GPFS/data/xinyuzhu-1/FL/data/generate_data.py"  # 例如 "/path/to/local/file.txt"
-remote_path = "/data/test/"  # 例如 "/path/to/remote/destination/"
+def check_file_exists(directory, filename):
+    filepath = os.path.join(directory, filename)
+    while not os.path.exists(filepath):
+        print(f"文件 {filename} 尚未出现，正在等待...")
+        time.sleep(5)  # 等待5秒后再次检查
+    print(f"文件 {filename} 已出现。")
 
-transfer_file(local_file, remote_path, server, port, user, password)
+
+# # 使用示例
+# server = "60.204.226.214"
+# port = 22  # 一般SSH使用22端口
+# user = "root"
+# password = "Zhuxinyu13579"
+# local_file = "/GPFS/data/xinyuzhu-1/FL/data/generate_data.py"  # 例如 "/path/to/local/file.txt"
+# remote_path = "/data/test/"  # 例如 "/path/to/remote/destination/"
+
+# transfer_file(local_file, remote_path, server, port, user, password)
