@@ -4,7 +4,6 @@ certifi==2016.9.26
 cffi==1.15.1
 charset-normalizer==2.0.12
 click==8.0.4
-clip==1.0
 cryptography==40.0.2
 cycler==0.11.0
 dataclasses==0.8
