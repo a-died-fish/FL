@@ -12,7 +12,7 @@ def get_args():
     
     # Dataset
     parser.add_argument('--dataset', type=str, default='cifar10', help='dataset used for training')
-    parser.add_argument('--datadir', type=str, default="/GPFS/data/ruiye/FL/FedGC/data", help="Data directory")
+    parser.add_argument('--datadir', type=str, default="./data", help="Data directory")
 
     # Training
     parser.add_argument('--model', type=str, default='resnet20_cifar', help='neural network used in training')
