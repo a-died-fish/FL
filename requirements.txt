@@ -36,9 +36,7 @@ six==1.16.0
 spacy-legacy==3.0.12
 srsly==2.4.7
 threadpoolctl==3.1.0
-torch==1.8.1
 torchsummary==1.5.1
-torchvision==0.9.1+cu111
 tqdm==4.64.1
 typer==0.9.0
 typing-extensions==3.10.0.2
