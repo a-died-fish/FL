@@ -31,117 +31,21 @@ def get_args():
                         help='The parameter for the dirichlet distribution for data partitioning')
     parser.add_argument('--skew_class', type=int, default=2, help='The parameter for the noniid-skew for data partitioning')
 
-    #For attack
-    parser.add_argument('--mia_attack',type=int,default=0,help='whether carry out membership inference attack while training')
-    parser.add_argument('--mia_transforms',type=int,default=1,
-                        help='whether carry out flipping and cropping to training data, which will increase the attack accuracy')
-    parser.add_argument('--mia_drop_last',type=int,default=0,help='whether drop last when loading dataset')
-    parser.add_argument('--mia_small_train',type=int,default=0,
-                        help='whether use a smaller training dataset, which will increase the attack accuracy')
-    parser.add_argument('--mia_small_fraction',type=float,default=0.2,help = 'the percentage of the small dataset')
-
-    # For LEAF dataset
-    parser.add_argument('--leaf_sample_top', type=int, default=1, help='whether to sample top clients from femnist')
-    parser.add_argument('--leaf_train_num', type=int, default=20, help='how many clients from femnist are sampled')
-    parser.add_argument('--leaf_test_num', type=int, default=20, help='number of testing clients from femnist')
-
-    # For FLAIR dataset
-    parser.add_argument('--flair_num_test_client', default=10, type=int, help='num of client for testing in the flair dataset')
-    parser.add_argument('--flair_img_size',type=int, default=64,help='flair image cropped size')
-    parser.add_argument('--flair_client_select', type=str, default='rand',help='select client according to its num of sample')
-    parser.add_argument('--flair_gen_class', type=int, default=153, help='generated classes')
-    parser.add_argument('--flair_num_per_class', type=int, default=1, help='generated image per classes')
-    parser.add_argument('--flair_syn_lr', type=float, default=0.01, help='distillation loss weight')
-
-    # FedGC
-    parser.add_argument('--fedgc', action="store_true", help='whether to use FedGC on baselines')
-    parser.add_argument('--fedgc_generator', type=str, default='SD-v1-5', help='generator used in FedGC')
-    parser.add_argument('--fedgc_num_gen', type=int, default=10000, help='number of generated samples')
-    parser.add_argument('--fedgc_change_aggr', type=int, default=0, help='whether change the aggregation weight according to updated dataset size')
-    parser.add_argument('--fedgc_allocation', type=str, default='equal', help='how to allocate the generated samples')
-
-    # FedAvgM
-    parser.add_argument('--server_momentum', type=float, default=0.0)
-
     # FedProx / MOON
     parser.add_argument('--mu', type=float, default=0.01)
 
-    # FedDecorr
-    parser.add_argument('--decorr_beta', type=float, default=0.1, help='parameter for loss term in Feddecor')
-
-    # FedExP
-    parser.add_argument('--exp_eps', type=float, default=1e-3, help='parameter for FedEXP in model aggregation')
-
-    # FedDyn
-    parser.add_argument('--dyn_alpha', type=float, default=0.01, help='parameter for FedDyn')
-
-    # FedADAM
-    parser.add_argument('--adam_server_momentum_1', type=float, default=0.9, help='first order parameter for fedadam.')
-    parser.add_argument('--adam_server_momentum_2', type=float, default=0.99, help='second order parameter for fedadam.')
-    parser.add_argument('--adam_server_lr', type=float, default=1.0, help='server learning rate for fedadam.')
-    parser.add_argument('--adam_tau', type=float, default=0.001, help='tau for fedadam.')
-
-    # FedSAM
-    parser.add_argument('--sam_rho', type=float, default=0.05, help='rho for fedsam.')
-
-    # VHL
-    parser.add_argument('--VHL_alpha', default=1.0, type=float)
-    parser.add_argument('--VHL_feat_align', action="store_true", help='if aligning feature in training')
-    parser.add_argument('--VHL_generative_dataset_root_path', default='/GPFS/data/yaxindu/FedHomo/dataset', type=str)
-    parser.add_argument('--VHL_dataset_batch_size', default=128, type=int)
-    parser.add_argument('--VHL_dataset_list', default="Gaussian_Noise", type=str, help="either Gaussian_Noise or style_GAN_init")
-    parser.add_argument('--VHL_align_local_epoch', default=5, type=int)
-
-    # FedGen
-    parser.add_argument("--gen_noise_dim", type=int, default=512)
-    parser.add_argument("--gen_generator_learning_rate", type=float, default=0.005)
-    parser.add_argument("--gen_hidden_dim", type=int, default=512)
-    parser.add_argument("--gen_server_epochs", type=int, default=400)
-    parser.add_argument("--gen_batch_size", type=int, default=32)
     
     args = parser.parse_args()
     
     dataset_info = {
-        'mnist': {'n_class': 10, 'n_channel': 1, 'img_size': '28'},
-        'fashionmnist': {'n_classes': 10, 'n_channel': 1, 'img_size': '28'},
-        'femnist': {'n_class': 62, 'n_channel': 1, 'img_size': '28'},
         'cifar10': {'n_class': 10, 'n_channel': 3, 'img_size': '32'},
-        'cifar100': {'n_class': 100, 'n_channel': 3, 'img_size': '32'},
-        'shakespeare': {'n_class': 80, 'n_channel': 1, 'img_size': '1'},
-        'sent140': {'n_class': 2, 'n_channel': 1, 'img_size': '1'},
-        'eurosat':{'n_class': 10,'n_channel': 3, 'img_size': '64'},
-        'tiny_imagenet':{'n_class':200,'n_channel':3,'img_size':'64'},
-        'pacs':{'n_class':7,'n_channel':3,'img_size':'227'},
-        'officehome':{'n_class':65,'n_channel':3,'img_size':'224'},
-        'vlcs':{'n_class':5,'n_channel':3,'img_size':'227'}
+        'eurosat':{'n_class': 10,'n_channel': 3, 'img_size': '64'}
     }
 
     args.n_class = dataset_info[args.dataset]['n_class']
     args.n_channel = dataset_info[args.dataset]['n_channel']
     args.img_size = dataset_info[args.dataset]['img_size']
     
-    if args.dataset == 'femnist':
-        args.n_client = args.leaf_train_num
-        args.datadir = '/GPFS/data/jingyichai/datasets/LEAF/femnist/data/all_data'
-    elif args.dataset == 'shakespeare':
-        args.n_client = args.leaf_train_num
-        args.datadir = '/GPFS/data/jingyichai/datasets/LEAF/shakespeare/data/all_data'
-    elif args.dataset == 'sent140':
-        args.n_client = args.leaf_train_num
-        args.datadir = '/GPFS/data/jingyichai/datasets/LEAF/sentiment140/data/all_data'
-    elif args.dataset == 'eurosat':
-        args.datadir = '/GPFS/data/xinyuzhu/FedGC/data'
-    elif args.dataset == 'tiny_imagenet':
-        args.datadir = '/GPFS/data/xinyuzhu/FedGC/data'
-    elif args.dataset == 'pacs':
-        args.datadir = '/GPFS/data/xinyuzhu/FedGC/data'
-    elif args.dataset == 'officehome':
-        args.datadir = '/GPFS/data/xinyuzhu/FedGC/data'
-    elif args.dataset == 'vlcs':
-        args.datadir = '/GPFS/data/xinyuzhu/FedGC/data'
-
-    if args.dataset == 'flair':
-        args.img_size = args.flair_img_size
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
